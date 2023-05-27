@@ -4,21 +4,23 @@ Find the elf with the most calories and return it given the text document input
 import os
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
+lines = []
+maxCalories = 0
+currentLine = 0
 
 with open(f"{dir_path}/input.txt") as plainInput:
-    lines = [line.strip() for line in plainInput.readlines()]
+    for line in plainInput.readlines():
+        a = line.strip()
+        lines.append(a)
 
-l = 0
-maxCalories = 0
-
-while l < len(lines):
+while currentLine < len(lines):
     elfCalories = 0
 
-    while l + 1 != len(lines) and lines[l] != "":
-        elfCalories += int(lines[l])
-        l += 1
+    while lines[currentLine] != "" and currentLine + 1 < len(lines):
+        elfCalories += int(lines[currentLine])
+        currentLine += 1
 
-    maxCalories = max(maxCalories, elfCalories)
-    l += 1
+    maxCalories = max(elfCalories, maxCalories)
+    currentLine += 1
 
-print(f"max calories, {maxCalories}")
+print(maxCalories)
