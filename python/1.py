@@ -3,9 +3,7 @@ Find the elf with the most calories and return it given the text document input
 """
 import os
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-
-with open(f"{dir_path}/input.txt") as plainInput:
+with open("../inputs/1.txt") as plainInput:
     lines = [line.strip() for line in plainInput.readlines()]
 
 l = 0
