@@ -1,10 +1,16 @@
 use std::fs;
 use std::cmp;
+use std::env;
 
 fn main() {
-    let elf_calories_file = fs
-        ::read_to_string("../../../inputs/1.txt")
-        .expect("could not read the input file");
+    let user_input: Vec<String> = env::args().collect();
+    if user_input.len() != 2 {
+        eprintln!("Usage: {} <file_path>", user_input[0]);
+    }
+    let file_path = &user_input[1];
+    println!("{file_path}");
+
+    let elf_calories_file = fs::read_to_string(file_path).expect("could not read the input file");
 
     let mut elf_calories = 0;
     let mut max_elf_calories = 0;
