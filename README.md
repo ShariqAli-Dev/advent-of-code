@@ -6,3 +6,4 @@ my advent of code practicing multiple languages
 - c
 - rust
 - zig
+- go
