@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 )
 
 const asciiZero = 48
@@ -37,6 +38,8 @@ func main() {
 		line := scanner.Text()
 		var leftNumber string
 		var rightNumber string
+
+	leftParent:
 		for i := 0; i < len(line); i++ {
 			lineAscii := line[i]
 			if isNumericAscii(lineAscii) {
@@ -44,12 +47,14 @@ func main() {
 				break
 			}
 			// 2 star
-			value, exists := numberWords[line[0:i]]
-			if exists {
-				leftNumber = value
-				break
+			for word, number := range numberWords {
+				if strings.Contains(line[0:i], word) {
+					leftNumber = number
+					break leftParent
+				}
 			}
 		}
+	rightParent:
 		for i := len(line); i > 0; i-- {
 			lineAscii := line[i-1]
 			if isNumericAscii(lineAscii) {
@@ -57,11 +62,11 @@ func main() {
 				break
 			}
 			// 2 star
-			fmt.Println(line[i:])
-			value, exists := numberWords[line[i:]]
-			if exists {
-				rightNumber = value
-				break
+			for word, number := range numberWords {
+				if strings.Contains(line[i:], word) {
+					rightNumber = number
+					break rightParent
+				}
 			}
 		}
 		calibration, err := strconv.Atoi(leftNumber + rightNumber)
