@@ -13,7 +13,6 @@ import (
 func main() {
 	var leftVals []int
 	var rightVals []int
-	var answer int
 
 	file, err := os.Open("inputs/1.txt")
 	if err != nil {
@@ -44,14 +43,34 @@ func main() {
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println(partTwo(leftVals, rightVals))
 
-	sort.Ints(leftVals)
+}
+
+func partTwo(leftVals, rightVals []int) int {
+	res := 0
+	rightValCountHash := map[int]int{} // number:count
+
+	for _, n := range rightVals {
+		rightValCountHash[n]++
+	}
+
+	for _, n := range leftVals {
+		res += n * rightValCountHash[n]
+	}
+
+	return res
+}
+
+func partOne(leftVals, rightVals []int) int {
+	var answer int
 	sort.Ints(rightVals)
 	for i := 0; i < len(leftVals); i++ {
 		difference := diff(leftVals[i], rightVals[i])
 		answer += difference
 	}
-	fmt.Println(answer)
+	return answer
+
 }
 
 func diff(n1, n2 int) int {
