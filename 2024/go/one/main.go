@@ -44,7 +44,6 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println(partTwo(leftVals, rightVals))
-
 }
 
 func partTwo(leftVals, rightVals []int) int {
