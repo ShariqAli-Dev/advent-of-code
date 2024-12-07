@@ -12,7 +12,7 @@ import (
 
 func main() {
 	var reports [][]int
-	file, err := os.Open("inputs/2.txt")
+	file, err := os.Open("../inputs/2.txt")
 	if err != nil {
 		log.Fatal(err)
 	}

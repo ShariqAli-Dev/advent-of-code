@@ -14,7 +14,7 @@ func main() {
 	var leftVals []int
 	var rightVals []int
 
-	file, err := os.Open("inputs/1.txt")
+	file, err := os.Open("../inputs/1.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
