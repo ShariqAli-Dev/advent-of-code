@@ -65,15 +65,15 @@ func getIsReportSafe(report []int, alreadyRemovedIndex bool) bool {
 
 		if !isSafeReport {
 			if !alreadyRemovedIndex {
-				fmt.Println("old", report)
-				newReportWithoutIndex := append([]int{}, report[:ndx-1]...)
-				newReportWithoutIndex = append(newReportWithoutIndex, report[ndx:]...)
-				fmt.Println("new", newReportWithoutIndex)
-				fmt.Println("removed", report[ndx-1])
-				isSafeReport = getIsReportSafe(newReportWithoutIndex, true)
-				fmt.Println("==")
-				// 10 7 5 8
-				//  removes 5 instoad of removing 8
+				// part two
+				for rdx, _ := range report {
+					arrWithoutIndex := append([]int{}, report[:rdx]...)
+					arrWithoutIndex = append(arrWithoutIndex, report[rdx+1:]...)
+					isSafeReport = getIsReportSafe(arrWithoutIndex, true)
+					if isSafeReport {
+						break
+					}
+				}
 			}
 			break
 		}
