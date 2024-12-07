@@ -29,40 +29,57 @@ func main() {
 		log.Fatal(err)
 	}
 
-	res := PartOne(reports)
-	fmt.Println(res)
+	fmt.Println(PartTwo(reports))
 }
 
-func PartOne(reports [][]int) int {
+func PartTwo(reports [][]int) int {
 	var safeReports int
 	for _, report := range reports {
-		isSafeReport := true
-		isIncreasing := false
-		for ndx, n := range report {
-			if !isSafeReport {
-				break
-			}
-			if ndx == 0 {
-				continue
-			} else if ndx == 1 {
-				isSafeReport = isDiffValid(n, report[ndx-1])
-				isIncreasing = isReportTrendIncreasing(n, report[ndx-1])
-			} else {
-				isSafeReport = isDiffValid(n, report[ndx-1])
-
-				currentTrendIsIncreasing := isReportTrendIncreasing(n, report[ndx-1])
-				if currentTrendIsIncreasing != isIncreasing {
-					isSafeReport = false
-				}
-
-			}
-		}
-		if isSafeReport {
+		if getIsReportSafe(report, false) {
 			safeReports++
 		}
 
 	}
 	return safeReports
+}
+
+func getIsReportSafe(report []int, alreadyRemovedIndex bool) bool {
+	isSafeReport := true
+	isIncreasing := false
+
+	for ndx, n := range report {
+		if ndx == 0 {
+			continue
+		} else if ndx == 1 {
+			isSafeReport = isDiffValid(n, report[ndx-1])
+			isIncreasing = isReportTrendIncreasing(n, report[ndx-1])
+		} else {
+			isSafeReport = isDiffValid(n, report[ndx-1])
+
+			currentTrendIsIncreasing := isReportTrendIncreasing(n, report[ndx-1])
+			if currentTrendIsIncreasing != isIncreasing {
+				isSafeReport = false
+			}
+
+		}
+
+		if !isSafeReport {
+			if !alreadyRemovedIndex {
+				fmt.Println("old", report)
+				newReportWithoutIndex := append([]int{}, report[:ndx-1]...)
+				newReportWithoutIndex = append(newReportWithoutIndex, report[ndx:]...)
+				fmt.Println("new", newReportWithoutIndex)
+				fmt.Println("removed", report[ndx-1])
+				isSafeReport = getIsReportSafe(newReportWithoutIndex, true)
+				fmt.Println("==")
+				// 10 7 5 8
+				//  removes 5 instoad of removing 8
+			}
+			break
+		}
+	}
+
+	return isSafeReport
 }
 
 func toSliceOfInts(slice []string) []int {
@@ -90,4 +107,12 @@ func isReportTrendIncreasing(currentN, prevN int) bool {
 		return true
 	}
 	return false
+}
+
+func reverseSlice[T any](arr []T) []T {
+	reversed := []T{}
+	for i := len(arr) - 1; i >= 0; i-- {
+		reversed = append(reversed, arr[i])
+	}
+	return reversed
 }
